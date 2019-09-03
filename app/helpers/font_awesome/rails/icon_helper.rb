@@ -29,9 +29,9 @@ module FontAwesome
       #
       #   content_tag(:li, fa_icon("check li", text: "Bulleted list item"))
       #   # => <li><i class="fa fa-check fa-li"></i> Bulleted list item</li>
-      def fa_icon(names = "flag", original_options = {})
+      def icon(klass, names, original_options)
+        classes = [klass]
         options = original_options.deep_dup
-        classes = ["fa"]
         classes.concat Private.icon_names(names)
         classes.concat Array(options.delete(:class))
         text = options.delete(:text)
@@ -39,6 +39,23 @@ module FontAwesome
         icon = content_tag(:i, nil, options.merge(:class => classes))
         Private.icon_join(icon, text, right_icon)
       end
+
+      def fa_icon(names = "flag", original_options = {})
+        icon('fa', names, original_options)
+      end
+
+      def far_icon(names = "flag", original_options = {})
+        icon('far', names, original_options)
+      end
+
+      def fas_icon(names = "flag", original_options = {})
+        icon('fas', names, original_options)
+      end
+
+      def fab_icon(names = "flag", original_options = {})
+        icon('fab', names, original_options)
+      end
+
 
       # Creates an stack set of icon tags given a base icon name, a main icon
       # name, and possible icon modifiers.
