@@ -29,31 +29,15 @@ module FontAwesome
       #
       #   content_tag(:li, fa_icon("check li", text: "Bulleted list item"))
       #   # => <li><i class="fa fa-check fa-li"></i> Bulleted list item</li>
-      def icon(klass, names, original_options)
-        classes = [klass]
+      def fa_icon(names = "flag", original_options = {}, style = "fas")
         options = original_options.deep_dup
+        classes = [style]
         classes.concat Private.icon_names(names)
         classes.concat Array(options.delete(:class))
         text = options.delete(:text)
         right_icon = options.delete(:right)
         icon = content_tag(:i, nil, options.merge(:class => classes))
         Private.icon_join(icon, text, right_icon)
-      end
-
-      def fa_icon(names = "flag", original_options = {})
-        icon('fa', names, original_options)
-      end
-
-      def far_icon(names = "flag", original_options = {})
-        icon('far', names, original_options)
-      end
-
-      def fas_icon(names = "flag", original_options = {})
-        icon('fas', names, original_options)
-      end
-
-      def fab_icon(names = "flag", original_options = {})
-        icon('fab', names, original_options)
       end
 
 
@@ -79,13 +63,13 @@ module FontAwesome
       #   # =>   <i class="fa fa-camera fa-stack-1x"></i>
       #   # =>   <i class="fa fa-ban-circle fa-stack-2x"></i>
       #   # => </span>
-      def fa_stacked_icon(names = "flag", original_options = {})
+      def fa_stacked_icon(names = "flag", original_options = {}, style = "fas")
         options = original_options.deep_dup
         classes = Private.icon_names("stack").concat(Array(options.delete(:class)))
         base_names = Private.array_value(options.delete(:base) || "square-o").push("stack-2x")
         names = Private.array_value(names).push("stack-1x")
-        base = fa_icon(base_names, options.delete(:base_options) || {})
-        icon = fa_icon(names, options.delete(:icon_options) || {})
+        base = fa_icon(base_names, options.delete(:base_options) || {}, style)
+        icon = fa_icon(names, options.delete(:icon_options) || {}, style)
         icons = [base, icon]
         icons.reverse! if options.delete(:reverse)
         text = options.delete(:text)
